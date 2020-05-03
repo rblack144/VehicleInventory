@@ -1,0 +1,87 @@
+﻿@model VehicleViewModel
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h1>Add</h1>
+
+<h4>Vehicle</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Add">
+            <input asp-for="Image" id="vehicleImage" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <select asp-for="Year" asp-items="@(new SelectList(Model.Years))" class="form-control">
+                    <option>Select Year</option>
+                </select>
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <select asp-for="MakeId" asp-items="@(new SelectList(Model.Makes,"Id","Name"))" class="form-control" id="vehicleMake">
+                    <option>Select Make</option>
+                </select>
+                <span asp-validation-for="MakeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <select asp-for="ModelId" asp-items="@(new SelectList(Model.Models,"Id","Name"))" class="form-control" id="vehicleModel" disabled>
+                    <option>Select Model</option>
+                </select>
+                <span asp-validation-for="ModelId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImagePath" class="control-label"></label>
+                <input asp-for="ImagePath" type="file" class="form-control-file border" id="imagePath" accept=".jpg,.png|image/*"  />
+                <span asp-validation-for="ImagePath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $('#vehicleMake').change(function () {
+                var value = $(this).val();
+                var models = "";
+                $.getJSON('@Url.Action("GetModels","Home")', { id: value }, function (data) {
+                    $.each(data, function (index, item) {
+                        models +="<option value='" + item.id + "'>"+ item.name +"</option>"
+                    });
+                    $('#vehicleModel').html(models);
+                    $('#vehicleModel').attr("disabled", false);
+                });
+            });
+
+            $('#imagePath').change(function () {
+                var reader = new FileReader();
+                reader.readAsDataURL(this.files[0]);
+                reader.onloadend = function () {
+                    if (this.readyState == FileReader.DONE) {
+                        $('#vehicleImage').val(this.result);
+                    }
+                };
+                //var reader = new FileReader();
+                //reader.onload = function () {
+                //    $('#vehicleImage').val(reader.result);
+                //};
+                //reader.readAsArrayBuffer(this.files[0]);
+            });
+        });
+    </script>
+}
