@@ -28,18 +28,25 @@ namespace VehicleInventory.Data
         /// </summary>
         public DbSet<Vehicle> Vehicles { get; set; }
 
+        /// <summary>
+        /// Configure the database
+        /// </summary>
+        /// <param name="builder">The builder</param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Seed the make
             builder.Entity<Make>().HasData(
                 new Make { Id = 1, Name="Honda" },
                 new Make { Id = 2, Name="Toyota" });
 
+            // Seed the model
             builder.Entity<Model>().HasData(
                 new Model { Id = 1, MakeId = 1, Name = "Civic LX", Year = 2018 },
                 new Model { Id = 2, MakeId = 1, Name = "Civic EX", Year = 2017 },
                 new Model { Id = 3, MakeId = 2, Name = "Camry", Year = 2018 },
                 new Model { Id = 4, MakeId = 2, Name = "Corolla", Year = 2017 });
 
+            // Allow identity configuration
             base.OnModelCreating(builder);
         }
     }

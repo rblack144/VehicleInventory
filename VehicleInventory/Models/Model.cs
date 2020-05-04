@@ -31,6 +31,14 @@ namespace VehicleInventory.Models
         /// </summary>
         public string Image { get; set; }
 
+        /// <summary>
+        /// The vehicle image name
+        /// </summary>
+        public string ImageName { get; set; }
+
+        /// <summary>
+        /// The vehicle model
+        /// </summary>
         public virtual Model Model { get; set; }
     }
     #endregion
@@ -79,6 +87,9 @@ namespace VehicleInventory.Models
         /// </summary>
         public int Year { get; set; }
 
+        /// <summary>
+        /// The vehicle make
+        /// </summary>
         public virtual Make Make { get; set; }
     }
     #endregion

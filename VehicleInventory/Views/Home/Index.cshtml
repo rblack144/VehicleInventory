@@ -36,15 +36,15 @@
                             data: null,
                             orderable: false,
                             render: function (data) {
-                                //return '<button class="btn btn-success">Car</button>';
                                 return '<div class="row">' +
-                                    '<div class="embed-responsive embed-responsive-4by3 col-4 p-2">' +
-                                    '<img src="' + data.image + '" class="pl-2 rounded embed-responsive-item" alt="Car Image">' +
+                                    '<div class="col-4 p-2">' +
+                                    '<img src="' + data.image + '" class="pl-2 rounded img-thumbnail" alt="Car Image">' +
                                     '</div>' +
                                     '<div class="col-8 pt-3">' +
                                     '<h4 class="card-title">' + data.make + ' ' + data.model + '</h4>' +
                                     '<p class="card-text">Price: $' + data.price + '</p>' +
                                     '<p class="card-text">Year: ' + data.year + '</p>' +
+                                    '<a href="/Home/Edit?id=' + data.id + '" class="a-button btn btn-primary mr-2">Update Vehicle</a>' +
                                     '<a href="/Home/DeleteVehicle?id=' + data.id + '" class="a-button btn btn-danger">Delete Vehicle</a>' +
                                     '</div>' +
                                     '</div>'

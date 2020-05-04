@@ -1,2 +1,43 @@
 ﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+        $(document).ready(function () {
+            $('#vehicleMake').change(function () {
+                var value = $(this).val();
+                var models = "";
+                $.getJSON('@Url.Action("GetModels","Home")', { id: value }, function (data) {
+                    $.each(data, function (index, item) {
+                        models +="<option value='" + item.id + "'>"+ item.name +"</option>"
+                    });
+                    $('#vehicleModel').html(models);
+                    $('#vehicleModel').attr("disabled", false);
+                });
+            });
+
+            $('#imagePath').change(function () {
+                var reader = new FileReader();
+                $('#imageMaskText').val(this.files[0].name);
+                if ($('#imageMask').hasClass('d-none') == false) {
+                    $('#imageMask').addClass('d-none');
+                }
+
+                $('#imagePath').removeClass('d-none');
+                $('#imageMaskText').text(this.files[0].name);
+                reader.readAsDataURL(this.files[0]);
+
+                reader.onloadend = function () {
+                    if (this.readyState == FileReader.DONE) {
+                        $('#vehicleImage').val(this.result);
+                    }
+                };
+            });
+
+            validateInputFile = function () {
+                if ($('#imageMaskText').text().length > 0) {
+                    $('#imagePath2').val($('#imageMaskText').text());
+                    $('#vehicleModel').attr("disabled", false);
+                    $('#editForm').submit();
+                }
+            };
+        });
+</script>
